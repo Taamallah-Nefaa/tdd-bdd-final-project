@@ -116,3 +116,49 @@ class TestProductModel(unittest.TestCase):
         self.assertEqual(found_product.name, product.name)
         self.assertEqual(found_product.description, product.description)
         self.assertEqual(found_product.price, product.price)
+        
+    def test_update_a_product(self):
+        """It should Update a Product"""
+        product = ProductFactory()
+        print(f"The product before:{product}")
+        product.id = None
+        product.create()
+        self.assertIsNotNone(product.id)
+        print(f"The product after:{product}")
+        product.description = "new description"
+        original_id = product.id
+        product.update()
+        self.assertEqual(product.id, original_id)      
+        self.assertEqual(product.description, "amazing product")
+        products_list = Product.all()
+        self.assertEqual(len(products_list), 1)
+        self.assertEqual(products_list[0].id, original_id)
+        self.assertEqual(products_list[0].description, "amazing product")
+        
+    def test_delete_a_product(self):
+        """It should delete a Product"""
+        product = ProductFactory()
+        product.id = None
+        product.create()
+        
+        products_list = Product.all()
+        self.assertEqual(len(products_list), 1)
+        
+        product.delete()
+        products_list = Product.all()
+        self.assertEqual(len(products_list), 0)
+        
+    
+    
+    def test_list_all_products(self):
+        """It should list all Products"""
+        products = Product.all()
+        self.assertEqual(len(products), 0)
+        
+        for _ in range(5):
+            product = ProductFactory()
+            product.id = None
+            product.create()
+            
+        latest_products_list = Product.all()
+        self.assertEqual(len(latest_products_list), 5)
