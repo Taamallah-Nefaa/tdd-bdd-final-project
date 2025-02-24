@@ -170,14 +170,13 @@ class TestProductRoutes(TestCase):
 
     def test_get_product(self):
         """It should Read a Product"""
-        test_product = self._create_products()[0]
-        
+        test_product = self._create_products()[0]        
         response = self.client.get(f"{BASE_URL}/{test_product.id}")
         self.assertEqual(
                 response.status_code, status.HTTP_200_OK
             )
         found_product = response.get_json()
-        self.assertEqual( found_product["name"], test_product.name)
+        self.assertEqual(found_product["name"], test_product.name)
     ######################################################################
     # Utility functions
     ######################################################################
@@ -189,7 +188,6 @@ class TestProductRoutes(TestCase):
         data = response.get_json()
         # logging.debug("data = %s", data)
         return len(data)
-    
     def test_get_product_not_found(self):
         """It should not  get a product that was not found"""
         response = self.client.get(f"{BASE_URL}/0")
@@ -281,3 +279,4 @@ class TestProductRoutes(TestCase):
         # check the data just to be sure
         for product in data:
             self.assertEqual(product["available"], True)
+                       

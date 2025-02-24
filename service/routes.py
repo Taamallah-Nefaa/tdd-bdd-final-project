@@ -22,7 +22,7 @@ from flask import jsonify, request, abort
 from flask import url_for  # noqa: F401 pylint: disable=unused-import
 from service.models import Product
 from service.common import status  # HTTP Status Codes
-from service.models import Product, Category
+from service.models import Category
 from . import app
 
 
@@ -116,9 +116,7 @@ def get_products(product_id):
     app.logger.info("Request to Get a Product...")
     product = Product.find(product_id)
     if not product:
-        abort(status.HTTP_404_NOT_FOUND, f"Product with id '{product_id}' was not found.")
-        
-    
+        abort(status.HTTP_404_NOT_FOUND, f"Product with id '{product_id}' was not found.")        
     app.logger.info("Returning product: %s", product.name)
     return product.serialize(), status.HTTP_200_OK
 
@@ -140,8 +138,7 @@ def update_products(product_id):
     product.deserialize(request.get_json())
     product.id = product_id
     product.update()
-    return product.serialize(), status.HTTP_200_OK
-       
+    return product.serialize(), status.HTTP_200_OK       
 
 ######################################################################
 # D E L E T E   A   P R O D U C T
